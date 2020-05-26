@@ -23,15 +23,13 @@ class ArtistRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.nameView.text = item.id
-        holder.descriptionView.text = item.description
+        holder.nameView.text = item.name
         holder.trackCountView.text = item.trackCount.toString()
         holder.followersCountView.text = item.followersCount.toString()
     }
 
     inner class ViewHolder(binding: ArtistListItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val nameView: TextView = binding.textViewArtistListItemName
-        val descriptionView: TextView = binding.textViewArtistListItemDescription
         val trackCountView: TextView = binding.textViewArtistListItemTrackCount
         val followersCountView: TextView = binding.textViewArtistListItemFollowerCount
     }

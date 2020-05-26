@@ -14,11 +14,12 @@ interface HeartThisAtApi {
         @Query("count") count: Int
     ): List<FeedItemJson>
 
-    @GET("/{permalink}")
+    @GET("/{permalink}/")
     suspend fun artist(@Path("permalink") permalink: String): ArtistJson
 
 }
 
+// FIXME Having trouble with the Moshi enum adapter - it's not using the @Json name
 enum class FeedTypeJson {
     @Json(name = "popular")
     popular,

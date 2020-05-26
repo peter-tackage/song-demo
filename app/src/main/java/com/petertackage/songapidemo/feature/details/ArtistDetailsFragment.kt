@@ -69,25 +69,26 @@ class ArtistDetailsFragment : Fragment() {
     }
 
     private fun renderContentHeader(content: ArtistDetailsState.Loaded) {
-        binding.contentArtistDetails.textViewArtistDetailsName.text = content.artist.name
-        Glide.with(this).load(content.artist.backgroundUrl)
-            .into(binding.contentArtistDetails.imageViewArtistDetailsBackground)
-        Glide.with(this).load(content.artist.avatarUrl)
-            .into(binding.contentArtistDetails.imageViewArtistDetailsAvatar)
+        with(binding.contentArtistDetails) {
+            textViewArtistDetailsName.text = content.artist.name
+            Glide.with(this@ArtistDetailsFragment).load(content.artist.backgroundUrl)
+                .into(imageViewArtistDetailsBackground)
+            Glide.with(this@ArtistDetailsFragment).load(content.artist.avatarUrl)
+                .into(imageViewArtistDetailsAvatar)
+        }
     }
 
     private fun renderTrackList(content: ArtistDetailsState.Loaded) {
         val track = content.tracks.first()
-        binding.contentArtistDetails.contentArtistDetailsTrack.textViewTrackListItemTitle.text =
-            track.title
-        binding.contentArtistDetails.contentArtistDetailsTrack.textViewTrackListItemDate.text =
-            DateUtils.formatElapsedTime(track.duration)
-        binding.contentArtistDetails.contentArtistDetailsTrack.textViewTrackListItemGenre.text =
-            track.genre
-
-        Glide.with(this).load(track.artworkUrl)
-            .into(binding.contentArtistDetails.contentArtistDetailsTrack.imageViewTrackListItemAvatar)
-
+        with(binding.contentArtistDetails.contentArtistDetailsTrack) {
+            textViewTrackListItemTitle.text = track.title
+            textViewTrackListItemDate.text = DateUtils.formatElapsedTime(track.duration)
+            textViewTrackListItemGenre.text = track.genre
+            Glide.with(this@ArtistDetailsFragment).load(track.artworkUrl)
+                .into(imageViewTrackListItemAvatar)
+            // TODO Call player
+            root.setOnClickListener { }
+        }
     }
 
     private fun showError() {

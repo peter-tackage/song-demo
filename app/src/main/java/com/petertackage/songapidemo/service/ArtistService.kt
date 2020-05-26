@@ -12,7 +12,7 @@ class ArtistService(private val api: HeartThisAtApi) {
         // Unique
         // Query each artist based upon username
         // Take results and map to Artist
-        return api.feed(FeedTypeJson.popular, page = 1, count = 20)
+        return api.feed(FeedTypeJson.popular, page = 1, count = 50)
             .map { it.user.permalink }
             .distinct() // This will probably mess with the API paging, if duplicates
             .map { api.artist(it) }

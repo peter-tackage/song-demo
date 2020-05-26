@@ -7,7 +7,7 @@
     android:padding="4dp">
 
     <ImageView
-        android:id="@+id/imageView_artistLisItem_avatar"
+        android:id="@+id/image_view_artist_list_item_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,8 +20,9 @@
         android:id="@+id/textView_artistListItem_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:textAppearance="?attr/textAppearanceListItem"
-        app:layout_constraintStart_toEndOf="@+id/imageView_artistLisItem_avatar"
+        app:layout_constraintStart_toEndOf="@+id/image_view_artist_list_item_avatar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="The artist name" />
 

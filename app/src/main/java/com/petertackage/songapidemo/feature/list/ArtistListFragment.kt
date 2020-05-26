@@ -53,12 +53,7 @@ class ArtistListFragment : Fragment() {
         with(binding.list) {
             layoutManager =
                 LinearLayoutManager(activity).apply { recycleChildrenOnDetach = true }
-            addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    RecyclerView.VERTICAL
-                )
-            )
+            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
         }
     }
 }

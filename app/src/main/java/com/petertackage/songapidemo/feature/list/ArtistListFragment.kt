@@ -52,7 +52,7 @@ class ArtistListFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         adapter = ArtistRecyclerViewAdapter(provideDiffItemCallback())
-        binding.recyclerViewArtistListList.adapter = adapter
+        binding.contentArtistList.recyclerViewArtistListList.adapter = adapter
 
         val viewModel: ArtistListFragmentViewModel by viewModels()
         viewModel.state
@@ -82,7 +82,7 @@ class ArtistListFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        with(binding.recyclerViewArtistListList) {
+        with(binding.contentArtistList.recyclerViewArtistListList) {
             // FIXME Is this redundant? We set the LayoutManager in the XML too.
             layoutManager =
                 LinearLayoutManager(activity).apply { recycleChildrenOnDetach = true }

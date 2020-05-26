@@ -11,6 +11,12 @@ import com.petertackage.songapidemo.databinding.FragmentArtistDetailsBinding
 
 class ArtistDetailsFragment : Fragment() {
 
+    private object Flipper {
+        const val LOADING = 0
+        const val CONTENT = 1
+        const val ERROR = 2
+    }
+
     // ViewBinding using technique from https://developer.android.com/topic/libraries/view-binding
     private var _binding: FragmentArtistDetailsBinding? = null
     private val binding get() = _binding!!
@@ -32,16 +38,35 @@ class ArtistDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        // FIXME Add graceful handling
+        // FIXME Add graceful handling of missing parameters
         val artistName = arguments?.getString("artistNameId")!!
 
         val viewModel: ArtistDetailsFragmentViewModel by viewModels()
         viewModel.loadArtist(artistName)
         viewModel.state
             .observe(viewLifecycleOwner,
-                Observer { artistDetailsState ->
-                    binding.textViewArtistDetailsPlaceholder.text = artistDetailsState.toString()
-                })
+                Observer { state -> render(state) })
+    }
+
+    private fun render(state: ArtistDetailsState) {
+        when (state) {
+            ArtistDetailsState.IsLoading -> showLoading()
+            is ArtistDetailsState.Loaded -> showContent(state)
+            is ArtistDetailsState.Failed -> showError()
+        }
+    }
+
+    private fun showLoading() {
+        binding.viewFlipperArtistListFlipper.displayedChild = Flipper.LOADING
+    }
+
+    private fun showContent(content: ArtistDetailsState.Loaded) {
+        binding.viewFlipperArtistListFlipper.displayedChild = Flipper.CONTENT
+        binding.contentArtistDetails.textViewArtistDetailsPlaceholder.text = content.toString()
+    }
+
+    private fun showError() {
+        binding.viewFlipperArtistListFlipper.displayedChild = Flipper.ERROR
     }
 
 }

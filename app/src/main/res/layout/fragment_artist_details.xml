@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<ViewFlipper xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/viewFlipper_artistList_flipper"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
     tools:context=".feature.details.ArtistDetailsFragment">
 
-    <TextView
-        android:id="@+id/textView_artistDetails_placeholder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
-</FrameLayout>
+    <include layout="@layout/common_content_loading_view" />
+
+    <include
+        android:id="@+id/content_artistDetails"
+        layout="@layout/artist_details_content_view" />
+
+    <include layout="@layout/common_content_failed_view" />
+
+
+
+</ViewFlipper>

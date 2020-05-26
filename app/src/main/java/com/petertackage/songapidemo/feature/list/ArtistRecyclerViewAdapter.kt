@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.petertackage.songapidemo.R
 import com.petertackage.songapidemo.databinding.ArtistListItemBinding
 import com.petertackage.songapidemo.service.Artist
 
@@ -32,6 +34,10 @@ class ArtistRecyclerViewAdapter(
         Glide.with(holder.itemView)
             .load(item.avatarUrl)
             .into(holder.avatarView)
+
+        holder.itemView.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_artistListFragment_to_artistDetailsFragment)
+        )
     }
 
     inner class ViewHolder(binding: ArtistListItemBinding) : RecyclerView.ViewHolder(binding.root) {

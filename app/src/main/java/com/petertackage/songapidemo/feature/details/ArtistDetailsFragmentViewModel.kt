@@ -10,33 +10,50 @@ import com.petertackage.songapidemo.service.ArtistService
 import com.petertackage.songapidemo.service.Track
 import com.petertackage.songapidemo.service.provideArtistService
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ArtistDetailsFragmentViewModel(
     private val artistService: ArtistService = provideArtistService(),
     private val dispatcherProvider: CoroutineDispatcherProvider = CoroutineDispatcherProvider()
 ) : ViewModel() {
 
-    private val _artistDetailsState = MutableLiveData<ArtistDetailsState>()
-    val artistDetailsState: LiveData<ArtistDetailsState> get() = _artistDetailsState
+    private val _state = MutableLiveData<ArtistDetailsState>()
+    val state: LiveData<ArtistDetailsState> get() = _state
 
     fun loadArtist(artistName: String) {
-        viewModelScope.launch(dispatcherProvider.io) { fetchArtist(artistName) }
+        fetchArtist(artistName)
     }
 
-    private suspend fun fetchArtist(artistName: String) {
-        try {
-            val artist = artistService.artist(artistName)
-            val tracks = artistService.tracksForArtist(artistName)
-
-            _artistDetailsState.postValue(ArtistDetailsState(artist, tracks))
-        } catch (e: Exception) {
-            Timber.e(e, "Service failure: $e")
+    private fun fetchArtist(artistName: String) {
+        emitNow(ArtistDetailsState.IsLoading)
+        viewModelScope.launch(dispatcherProvider.io) {
+            Result.runCatching { fetchArtistDetails(artistName) }
+                .onSuccess { emit(it) }
+                .onFailure { emit(ArtistDetailsState.Failed(it)) }
         }
+    }
+
+    private suspend fun fetchArtistDetails(artistName: String): ArtistDetailsState.Loaded {
+        val artist = artistService.artist(artistName);
+        val tracks = artistService.tracksForArtist(artistName);
+        return ArtistDetailsState.Loaded(artist, tracks)
+    }
+
+    private fun emitNow(state: ArtistDetailsState) {
+        _state.value = state
+    }
+
+    private fun emit(state: ArtistDetailsState) {
+        _state.postValue(state)
     }
 }
 
-data class ArtistDetailsState(
-    val artist: Artist,
-    val tracks: List<Track>
-)
+sealed class ArtistDetailsState {
+    object IsLoading : ArtistDetailsState()
+    data class Loaded(
+        val artist: Artist,
+        val tracks: List<Track>
+    ) : ArtistDetailsState()
+
+    data class Failed(val throwable: Throwable) : ArtistDetailsState()
+}
+

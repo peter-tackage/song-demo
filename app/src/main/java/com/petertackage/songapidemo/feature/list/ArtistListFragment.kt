@@ -55,7 +55,7 @@ class ArtistListFragment : Fragment() {
         binding.recyclerViewArtistListList.adapter = adapter
 
         val viewModel: ArtistListFragmentViewModel by viewModels()
-        viewModel.artistList
+        viewModel.state
             .observe(viewLifecycleOwner,
                 Observer { state -> render(state) })
     }

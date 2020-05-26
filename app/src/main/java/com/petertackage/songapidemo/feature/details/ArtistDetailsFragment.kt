@@ -37,7 +37,7 @@ class ArtistDetailsFragment : Fragment() {
 
         val viewModel: ArtistDetailsFragmentViewModel by viewModels()
         viewModel.loadArtist(artistName)
-        viewModel.artistDetailsState
+        viewModel.state
             .observe(viewLifecycleOwner,
                 Observer { artistDetailsState ->
                     binding.textViewArtistDetailsPlaceholder.text = artistDetailsState.toString()

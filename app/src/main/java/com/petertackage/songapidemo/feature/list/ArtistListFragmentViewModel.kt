@@ -12,25 +12,31 @@ import kotlinx.coroutines.launch
 
 class ArtistListFragmentViewModel(
     private val artistService: ArtistService = provideArtistService(),
-    dispatcherProvider: CoroutineDispatcherProvider = CoroutineDispatcherProvider()
+    private val dispatcherProvider: CoroutineDispatcherProvider = CoroutineDispatcherProvider()
 ) : ViewModel() {
 
-    private val _artistList = MutableLiveData<ArtistListState>()
-    val artistList: LiveData<ArtistListState> get() = _artistList
+    private val _state = MutableLiveData<ArtistListState>()
+    val state: LiveData<ArtistListState> get() = _state
 
     init {
-        viewModelScope.launch(dispatcherProvider.io) { fetchTopArtists() }
+        fetchTopArtists()
     }
 
-    private suspend fun fetchTopArtists() {
-        emit(ArtistListState.IsLoading)
-        Result.runCatching { artistService.topArtists() }
-            .onSuccess { emit(ArtistListState.Loaded(it)) }
-            .onFailure { emit(ArtistListState.Failed(it)) }
+    private fun fetchTopArtists() {
+        emitNow(ArtistListState.IsLoading)
+        viewModelScope.launch(dispatcherProvider.io) {
+            Result.runCatching { artistService.topArtists() }
+                .onSuccess { emit(ArtistListState.Loaded(it)) }
+                .onFailure { emit(ArtistListState.Failed(it)) }
+        }
     }
 
     private fun emit(state: ArtistListState) {
-        _artistList.postValue(state)
+        _state.postValue(state)
+    }
+
+    private fun emitNow(state: ArtistListState) {
+        _state.value = state
     }
 
 }

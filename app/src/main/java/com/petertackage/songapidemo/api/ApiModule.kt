@@ -30,7 +30,7 @@ private fun createOkHttpClient(): OkHttpClient {
         .build()
 }
 
-fun provideLoggingInterceptor(): HttpLoggingInterceptor {
+private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
     return HttpLoggingInterceptor((object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
             Timber.tag("OkHttp").d(message)

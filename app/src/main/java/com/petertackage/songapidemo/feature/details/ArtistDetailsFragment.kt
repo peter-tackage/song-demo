@@ -57,16 +57,16 @@ class ArtistDetailsFragment : Fragment() {
     }
 
     private fun showLoading() {
-        binding.viewFlipperArtistListFlipper.displayedChild = Flipper.LOADING
+        binding.viewFlipperArtistDetailsFlipper.displayedChild = Flipper.LOADING
     }
 
     private fun showContent(content: ArtistDetailsState.Loaded) {
-        binding.viewFlipperArtistListFlipper.displayedChild = Flipper.CONTENT
+        binding.viewFlipperArtistDetailsFlipper.displayedChild = Flipper.CONTENT
         binding.contentArtistDetails.textViewArtistDetailsPlaceholder.text = content.toString()
     }
 
     private fun showError() {
-        binding.viewFlipperArtistListFlipper.displayedChild = Flipper.ERROR
+        binding.viewFlipperArtistDetailsFlipper.displayedChild = Flipper.ERROR
     }
 
 }

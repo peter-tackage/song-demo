@@ -51,6 +51,7 @@ class ArtistListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // TODO Ideally this would be injected
         adapter = ArtistRecyclerViewAdapter(provideDiffItemCallback())
         binding.contentArtistList.recyclerViewArtistListList.adapter = adapter
 

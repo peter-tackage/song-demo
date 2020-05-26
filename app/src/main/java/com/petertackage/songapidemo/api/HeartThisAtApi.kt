@@ -7,11 +7,9 @@ import retrofit2.http.Query
 
 interface HeartThisAtApi {
 
-    // https://api-v2.hearthis.at/feed/?type=popular&page=1&count=5
-
-    @GET("/feed")
+    @GET("/feed/")
     suspend fun feed(
-        @Query("type") feedType: FeedTypeJson?,
+        @Query("type") feedType: FeedTypeJson,
         @Query("page") page: Int,
         @Query("count") count: Int
     ): List<FeedItemJson>
@@ -23,10 +21,10 @@ interface HeartThisAtApi {
 
 enum class FeedTypeJson {
     @Json(name = "popular")
-    POPULAR,
+    popular,
 
     @Json(name = "new")
-    NEW
+    new
 }
 
 data class FeedItemJson(

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.petertackage.songapidemo.databinding.FragmentArtistDetailsBinding
 
 class ArtistDetailsFragment : Fragment() {
@@ -62,7 +63,11 @@ class ArtistDetailsFragment : Fragment() {
 
     private fun showContent(content: ArtistDetailsState.Loaded) {
         binding.viewFlipperArtistDetailsFlipper.displayedChild = Flipper.CONTENT
-        binding.contentArtistDetails.textViewArtistDetailsPlaceholder.text = content.toString()
+        binding.contentArtistDetails.textViewArtistDetailsName.text = content.artist.name
+        Glide.with(this).load(content.artist.backgroundUrl)
+            .into(binding.contentArtistDetails.imageViewArtistDetailsBackground)
+        Glide.with(this).load(content.artist.avatarUrl)
+            .into(binding.contentArtistDetails.imageViewArtistDetailsAvatar)
     }
 
     private fun showError() {

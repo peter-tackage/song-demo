@@ -11,8 +11,19 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.petertackage.songapidemo.databinding.FragmentListBinding
+import com.petertackage.songapidemo.feature.list.ArtistListFragment.Flipper.CONTENT
+import com.petertackage.songapidemo.feature.list.ArtistListFragment.Flipper.ERROR
+import com.petertackage.songapidemo.feature.list.ArtistListFragment.Flipper.LOADING
 
 class ArtistListFragment : Fragment() {
+
+    private lateinit var adapter: ArtistRecyclerViewAdapter
+
+    private object Flipper {
+        const val LOADING = 0
+        const val CONTENT = 1
+        const val ERROR = 2
+    }
 
     // ViewBinding using technique from https://developer.android.com/topic/libraries/view-binding
     private var _binding: FragmentListBinding? = null
@@ -40,17 +51,39 @@ class ArtistListFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val adapter = ArtistRecyclerViewAdapter(provideDiffItemCallback())
-        binding.list.adapter = adapter
+        adapter = ArtistRecyclerViewAdapter(provideDiffItemCallback())
+        binding.recyclerViewArtistListList.adapter = adapter
 
         val viewModel: ArtistListFragmentViewModel by viewModels()
         viewModel.artistList
             .observe(viewLifecycleOwner,
-                Observer { artists -> adapter.submitList(artists) })
+                Observer { state -> render(state) })
+    }
+
+    private fun render(state: ArtistListState) {
+        when (state) {
+            ArtistListState.IsLoading -> showLoading()
+            is ArtistListState.Loaded -> showContent(state)
+            is ArtistListState.Failed -> showError()
+        }
+    }
+
+    private fun showLoading() {
+        binding.viewFlipperArtistListFlipper.displayedChild = LOADING
+    }
+
+    private fun showContent(content: ArtistListState.Loaded) {
+        binding.viewFlipperArtistListFlipper.displayedChild = CONTENT
+        adapter.submitList(content.artists)
+    }
+
+    private fun showError() {
+        binding.viewFlipperArtistListFlipper.displayedChild = ERROR
     }
 
     private fun initRecyclerView() {
-        with(binding.list) {
+        with(binding.recyclerViewArtistListList) {
+            // FIXME Is this redundant? We set the LayoutManager in the XML too.
             layoutManager =
                 LinearLayoutManager(activity).apply { recycleChildrenOnDetach = true }
             addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))

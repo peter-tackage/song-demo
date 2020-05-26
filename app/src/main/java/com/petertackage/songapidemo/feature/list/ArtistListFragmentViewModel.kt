@@ -9,28 +9,34 @@ import com.petertackage.songapidemo.service.Artist
 import com.petertackage.songapidemo.service.ArtistService
 import com.petertackage.songapidemo.service.provideArtistService
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class ArtistListFragmentViewModel(
     private val artistService: ArtistService = provideArtistService(),
     dispatcherProvider: CoroutineDispatcherProvider = CoroutineDispatcherProvider()
 ) : ViewModel() {
 
-    private val _artistList = MutableLiveData<List<Artist>>()
-    val artistList: LiveData<List<Artist>> get() = _artistList
+    private val _artistList = MutableLiveData<ArtistListState>()
+    val artistList: LiveData<ArtistListState> get() = _artistList
 
     init {
         viewModelScope.launch(dispatcherProvider.io) { fetchTopArtists() }
     }
 
     private suspend fun fetchTopArtists() {
-        try {
-            val artists = artistService.topArtists()
-            Timber.d("artists is: $artists")
-            _artistList.postValue(artists)
-        } catch (e: Exception) {
-            Timber.e(e, "Service failure: $e")
-        }
+        emit(ArtistListState.IsLoading)
+        Result.runCatching { artistService.topArtists() }
+            .onSuccess { emit(ArtistListState.Loaded(it)) }
+            .onFailure { emit(ArtistListState.Failed(it)) }
     }
 
+    private fun emit(state: ArtistListState) {
+        _artistList.postValue(state)
+    }
+
+}
+
+sealed class ArtistListState {
+    object IsLoading : ArtistListState()
+    data class Loaded(val artists: List<Artist>) : ArtistListState()
+    data class Failed(val throwable: Throwable) : ArtistListState()
 }

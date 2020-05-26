@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -35,8 +36,12 @@ class ArtistRecyclerViewAdapter(
             .load(item.avatarUrl)
             .into(holder.avatarView)
 
+        // TODO Could use safe-arg plugin instead and remove use of Bundle
         holder.itemView.setOnClickListener(
-            Navigation.createNavigateOnClickListener(R.id.action_artistListFragment_to_artistDetailsFragment)
+            Navigation.createNavigateOnClickListener(
+                R.id.action_artistListFragment_to_artistDetailsFragment,
+                bundleOf("artistNameId" to item.nameId)
+            )
         )
     }
 

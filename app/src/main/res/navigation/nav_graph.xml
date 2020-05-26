@@ -9,7 +9,9 @@
         android:id="@+id/artistListFragment"
         android:name="com.petertackage.songapidemo.feature.list.ArtistListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list" />
+        tools:layout="@layout/fragment_list">
+        <argument android:name="artistNameId" />
+    </fragment>
     <fragment
         android:id="@+id/artistDetailsFragment"
         android:name="com.petertackage.songapidemo.feature.details.ArtistDetailsFragment"

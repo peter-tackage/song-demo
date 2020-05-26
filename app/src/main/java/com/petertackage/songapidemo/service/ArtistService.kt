@@ -33,6 +33,7 @@ class ArtistService(private val api: HeartThisAtApi) {
 
 data class Artist(
     val id: String,
+    val nameId: String,
     val name: String,
     val avatarUrl: String,
     val backgroundUrl: String,
@@ -44,6 +45,7 @@ data class Artist(
 private fun ArtistJson.toDomain() =
     Artist(
         id = id,
+        nameId = permalink,
         name = username,
         avatarUrl = avatarUrl,
         backgroundUrl = backgroundUrl,

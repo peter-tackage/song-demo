@@ -32,10 +32,11 @@ class ArtistDetailsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val viewModel: ArtistDetailsFragmentViewModel by viewModels()
+        // FIXME Add graceful handling
+        val artistName = arguments?.getString("artistNameId")!!
 
-        // FIXME Hardcoded for testing
-        viewModel.loadArtist("tbase")
+        val viewModel: ArtistDetailsFragmentViewModel by viewModels()
+        viewModel.loadArtist(artistName)
         viewModel.artistDetailsState
             .observe(viewLifecycleOwner,
                 Observer { artistDetailsState ->

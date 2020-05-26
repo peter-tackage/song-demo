@@ -12,7 +12,8 @@ import com.petertackage.songapidemo.databinding.TrackListItemBinding
 import com.petertackage.songapidemo.service.Track
 
 class TrackRecyclerViewAdapter(
-    diffItemCallback: DiffUtil.ItemCallback<Track>
+    diffItemCallback: DiffUtil.ItemCallback<Track>,
+    private val trackItemClickHandler: (url: String) -> Unit
 ) : ListAdapter<Track, TrackRecyclerViewAdapter.ViewHolder>(diffItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,9 +34,8 @@ class TrackRecyclerViewAdapter(
             Glide.with(itemView)
                 .load(item.artworkUrl)
                 .into(trackAvatarImageView)
-            // TODO Call player
             itemView.setOnClickListener {
-                //viewModel.playTrack(track.streamUrl)
+                trackItemClickHandler(item.streamUrl)
             }
         }
     }

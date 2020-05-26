@@ -5,8 +5,9 @@
 - Uses View Binding to reference views.
 - Doesn't use a dependency injection library, but ViewModel dependencies are generally provided via the constructor. 
 This means that they are largely testable, although I haven't implemented tests yet. Using a dependency injection library, such as Dagger seemed like overkill.
-- Has simple `MediaPlayer` for playing track audio. For simplicity, the audio is released when app is closed.
-- Git history show progression of the implementation.
+- Has simple `MediaPlayer` for playing track audio. For simplicity, the audio is released when app is closed. 
+Chose this rather than `ExoPlayer` for simplicity, although I could borrowed from myself; [here](https://github.com/peter-tackage/freesound-android/tree/master/app/src/main/java/com/futurice/freesound/feature/audio)
+- Git history shows the progression of the implementation.
 
 Third-party libraries used:
 - Retrofit: for API interactions
@@ -23,4 +24,5 @@ Further improvements:
 - Remove duplication of `emit` methods in ViewModels.
 - UI is very basic - could use a few coats of paint.
 - Audio player handling is rough and unproven.
+- Various other TODOs/FIXMEs where I made to the trade-off to move forward, rather than polish.
 

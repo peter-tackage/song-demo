@@ -52,7 +52,8 @@ class ArtistDetailsFragment : Fragment() {
         // FIXME Add graceful handling of missing parameters
         val artistName = extractArtistParam()
 
-        adapter = TrackRecyclerViewAdapter(provideDiffItemCallback())
+        adapter =
+            TrackRecyclerViewAdapter(provideDiffItemCallback()) { url -> viewModel.playTrack(url) }
         binding.contentArtistDetails.recyclerViewArtistDetailsList.adapter = adapter
 
         viewModel.loadArtist(artistName)

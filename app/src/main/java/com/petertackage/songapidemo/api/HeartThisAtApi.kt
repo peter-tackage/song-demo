@@ -11,7 +11,7 @@ interface HeartThisAtApi {
 
     @GET("/feed")
     suspend fun feed(
-        @Query("type") type: TypeJson?,
+        @Query("type") feedType: FeedTypeJson?,
         @Query("page") page: Int,
         @Query("count") count: Int
     ): List<FeedItemJson>
@@ -21,9 +21,10 @@ interface HeartThisAtApi {
 
 }
 
-enum class TypeJson {
+enum class FeedTypeJson {
     @Json(name = "popular")
     POPULAR,
+
     @Json(name = "new")
     NEW
 }
@@ -43,9 +44,9 @@ data class ArtistJson(
     val id: String,
     val permalink: String,
     val username: String,
-    @Json(name = "avatar_url") val avatar_url: String,
-    @Json(name = "background_url") val background_url: String,
+    @Json(name = "avatar_url") val avatarUrl: String,
+    @Json(name = "background_url") val backgroundUrl: String,
     val description: String,
-    @Json(name = "track_count") val track_count: Int,
-    @Json(name = "followers_count") val followers_count: Long
+    @Json(name = "track_count") val trackCount: Int,
+    @Json(name = "followers_count") val followersCount: Long
 )

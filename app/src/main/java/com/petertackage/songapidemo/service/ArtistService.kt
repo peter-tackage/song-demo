@@ -1,8 +1,8 @@
 package com.petertackage.songapidemo.service
 
 import com.petertackage.songapidemo.api.ArtistJson
-import com.petertackage.songapidemo.api.FeedTypeJson
 import com.petertackage.songapidemo.api.HeartThisAtApi
+import com.petertackage.songapidemo.api.TrackJson
 
 class ArtistService(private val api: HeartThisAtApi) {
 
@@ -12,16 +12,21 @@ class ArtistService(private val api: HeartThisAtApi) {
         // Unique
         // Query each artist based upon username
         // Take results and map to Artist
-        return api.feed(FeedTypeJson.popular, page = 1, count = 50)
+        return api.popularFeed(page = 1, count = 20)
             .map { it.user.permalink }
             .distinct() // This will probably mess with the API paging, if duplicates
             .map { api.artist(it) }
-            .map { toDomain(it) }
+            .map { it.toDomain() }
     }
 
     // TODO This will need to be expanded for track information.
     suspend fun artist(name: String): Artist {
-        return toDomain(api.artist(name))
+        return api.artist(name).toDomain()
+    }
+
+    suspend fun tracksForArtist(artistName: String): List<Track> {
+        return api.tracks(artistName, 1, 20)
+            .map { it.toDomain() }
     }
 
 }
@@ -36,13 +41,33 @@ data class Artist(
     val followersCount: Long
 )
 
-private fun toDomain(artistJson: ArtistJson) =
+private fun ArtistJson.toDomain() =
     Artist(
-        id = artistJson.id,
-        name = artistJson.username,
-        avatarUrl = artistJson.avatarUrl,
-        backgroundUrl = artistJson.backgroundUrl,
-        description = artistJson.description,
-        trackCount = artistJson.trackCount,
-        followersCount = artistJson.followersCount
+        id = id,
+        name = username,
+        avatarUrl = avatarUrl,
+        backgroundUrl = backgroundUrl,
+        description = description,
+        trackCount = trackCount,
+        followersCount = followersCount
+    )
+
+
+data class Track(
+    val id: String,
+    val title: String,
+    val artworkUrl: String,
+    val duration: Long,
+    val waveformUrl: String,
+    val streamUrl: String
+)
+
+private fun TrackJson.toDomain() =
+    Track(
+        id = id,
+        title = title,
+        artworkUrl = artworkUrl,
+        duration = duration,
+        waveformUrl = waveformUrl,
+        streamUrl = streamUrl
     )

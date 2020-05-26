@@ -7,9 +7,8 @@ import retrofit2.http.Query
 
 interface HeartThisAtApi {
 
-    @GET("/feed/")
-    suspend fun feed(
-        @Query("type") feedType: FeedTypeJson,
+    @GET("/feed/?type=popular")
+    suspend fun popularFeed(
         @Query("page") page: Int,
         @Query("count") count: Int
     ): List<FeedItemJson>
@@ -17,15 +16,13 @@ interface HeartThisAtApi {
     @GET("/{permalink}/")
     suspend fun artist(@Path("permalink") permalink: String): ArtistJson
 
-}
+    @GET("/{permalink}/?type=tracks")
+    suspend fun tracks(
+        @Path("permalink") permalink: String,
+        @Query("page") page: Int,
+        @Query("count") count: Int
+    ): List<TrackJson>
 
-// FIXME Having trouble with the Moshi enum adapter - it's not using the @Json name
-enum class FeedTypeJson {
-    @Json(name = "popular")
-    popular,
-
-    @Json(name = "new")
-    new
 }
 
 data class FeedItemJson(
@@ -48,4 +45,13 @@ data class ArtistJson(
     val description: String,
     @Json(name = "track_count") val trackCount: Int,
     @Json(name = "followers_count") val followersCount: Long
+)
+
+data class TrackJson(
+    val id: String,
+    val title: String,
+    @Json(name = "artwork_url") val artworkUrl: String,
+    val duration: Long,
+    @Json(name = "waveform_url") val waveformUrl: String,
+    @Json(name = "stream_url") val streamUrl: String
 )

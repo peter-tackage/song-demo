@@ -19,7 +19,7 @@ class ArtistRecyclerViewAdapter(
         val binding = ArtistListItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent, false
-        );
+        )
         return ViewHolder(binding)
     }
 
@@ -31,7 +31,7 @@ class ArtistRecyclerViewAdapter(
 
         Glide.with(holder.itemView)
             .load(item.avatarUrl)
-            .into(holder.avatarView);
+            .into(holder.avatarView)
     }
 
     inner class ViewHolder(binding: ArtistListItemBinding) : RecyclerView.ViewHolder(binding.root) {

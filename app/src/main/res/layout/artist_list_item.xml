@@ -10,10 +10,10 @@
         android:id="@+id/image_view_artist_list_item_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginEnd="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="132dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -61,6 +61,5 @@
         app:layout_constraintStart_toEndOf="@+id/textView_artistListItem_followerCountLabel"
         app:layout_constraintTop_toTopOf="@+id/textView_artistListItem_followerCountLabel"
         tools:text="120" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

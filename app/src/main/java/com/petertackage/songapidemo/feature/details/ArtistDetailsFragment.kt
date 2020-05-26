@@ -1,7 +1,6 @@
 package com.petertackage.songapidemo.feature.details
 
 import android.os.Bundle
-import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.petertackage.songapidemo.databinding.FragmentArtistDetailsBinding
+import com.petertackage.songapidemo.feature.list.provideDiffItemCallback
 
 class ArtistDetailsFragment : Fragment() {
 
@@ -19,9 +19,13 @@ class ArtistDetailsFragment : Fragment() {
         const val ERROR = 2
     }
 
+    private lateinit var adapter: TrackRecyclerViewAdapter
+
     // ViewBinding using technique from https://developer.android.com/topic/libraries/view-binding
     private var _binding: FragmentArtistDetailsBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel: ArtistDetailsFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,6 +34,11 @@ class ArtistDetailsFragment : Fragment() {
     ): View? {
         _binding = FragmentArtistDetailsBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecyclerViewLayout()
     }
 
     override fun onDestroyView() {
@@ -41,14 +50,18 @@ class ArtistDetailsFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         // FIXME Add graceful handling of missing parameters
-        val artistName = arguments?.getString("artistNameId")!!
+        val artistName = extractArtistParam()
 
-        val viewModel: ArtistDetailsFragmentViewModel by viewModels()
+        adapter = TrackRecyclerViewAdapter(provideDiffItemCallback())
+        binding.contentArtistDetails.recyclerViewArtistDetailsList.adapter = adapter
+
         viewModel.loadArtist(artistName)
         viewModel.state
             .observe(viewLifecycleOwner,
                 Observer { state -> render(state) })
     }
+
+    private fun extractArtistParam() = arguments?.getString("artistNameId")!!
 
     private fun render(state: ArtistDetailsState) {
         when (state) {
@@ -79,20 +92,26 @@ class ArtistDetailsFragment : Fragment() {
     }
 
     private fun renderTrackList(content: ArtistDetailsState.Loaded) {
-        val track = content.tracks.first()
-        with(binding.contentArtistDetails.contentArtistDetailsTrack) {
-            textViewTrackListItemTitle.text = track.title
-            textViewTrackListItemDate.text = DateUtils.formatElapsedTime(track.duration)
-            textViewTrackListItemGenre.text = track.genre
-            Glide.with(this@ArtistDetailsFragment).load(track.artworkUrl)
-                .into(imageViewTrackListItemAvatar)
-            // TODO Call player
-            root.setOnClickListener { }
-        }
+        adapter.submitList(content.tracks)
     }
 
     private fun showError() {
         binding.viewFlipperArtistDetailsFlipper.displayedChild = Flipper.ERROR
+    }
+
+    private fun initRecyclerViewLayout() {
+        with(binding.contentArtistDetails.recyclerViewArtistDetailsList) {
+            // FIXME Is this redundant? We set the LayoutManager in the XML too.
+            layoutManager =
+                androidx.recyclerview.widget.LinearLayoutManager(activity)
+                    .apply { recycleChildrenOnDetach = true }
+            addItemDecoration(
+                androidx.recyclerview.widget.DividerItemDecoration(
+                    context,
+                    androidx.recyclerview.widget.RecyclerView.VERTICAL
+                )
+            )
+        }
     }
 
 }

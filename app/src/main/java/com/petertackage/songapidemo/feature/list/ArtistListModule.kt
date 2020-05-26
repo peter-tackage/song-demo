@@ -1,20 +1,19 @@
 package com.petertackage.songapidemo.feature.list
 
 import androidx.recyclerview.widget.DiffUtil
-import com.petertackage.songapidemo.service.Artist
 
-fun provideDiffItemCallback(): DiffUtil.ItemCallback<Artist> {
-    return object : DiffUtil.ItemCallback<Artist>() {
+fun <T> provideDiffItemCallback(): DiffUtil.ItemCallback<T> {
+    return object : DiffUtil.ItemCallback<T>() {
         override fun areItemsTheSame(
-            oldItem: Artist,
-            newItem: Artist
+            oldItem: T,
+            newItem: T
         ): Boolean {
             return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: Artist,
-            newItem: Artist
+            oldItem: T,
+            newItem: T
         ): Boolean {
             // No local state.
             return true

@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.petertackage.songapidemo.async.CoroutineDispatcherProvider
+import com.petertackage.songapidemo.feature.audio.StreamPlayer
+import com.petertackage.songapidemo.feature.audio.provideStreamPlayer
 import com.petertackage.songapidemo.service.Artist
 import com.petertackage.songapidemo.service.ArtistService
 import com.petertackage.songapidemo.service.Track
@@ -13,6 +15,7 @@ import kotlinx.coroutines.launch
 
 class ArtistDetailsFragmentViewModel(
     private val artistService: ArtistService = provideArtistService(),
+    private val streamPlayer: StreamPlayer = provideStreamPlayer(),
     private val dispatcherProvider: CoroutineDispatcherProvider = CoroutineDispatcherProvider()
 ) : ViewModel() {
 
@@ -21,6 +24,14 @@ class ArtistDetailsFragmentViewModel(
 
     fun loadArtist(artistName: String) {
         fetchArtist(artistName)
+    }
+
+    fun playTrack(url: String) {
+        streamPlayer.play(url)
+    }
+
+    fun stopTrack() {
+        streamPlayer.stop()
     }
 
     private fun fetchArtist(artistName: String) {
@@ -45,6 +56,7 @@ class ArtistDetailsFragmentViewModel(
     private fun emit(state: ArtistDetailsState) {
         _state.postValue(state)
     }
+
 }
 
 sealed class ArtistDetailsState {

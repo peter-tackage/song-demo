@@ -33,17 +33,17 @@
             tools:text="The track name" />
 
         <TextView
-            android:id="@+id/textView_trackListItem_date"
+            android:id="@+id/textView_trackListItem_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="12 days ago" />
+            tools:text="12:45" />
 
         <TextView
             android:id="@+id/text_view_track_list_item_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            tools:text="Demo description which could be quite long" />
+            tools:text="A genre" />
 
     </LinearLayout>
 

@@ -40,7 +40,7 @@ class ArtistListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initRecyclerView()
+        initRecyclerViewLayout()
     }
 
     override fun onDestroyView() {
@@ -82,7 +82,7 @@ class ArtistListFragment : Fragment() {
         binding.viewFlipperArtistListFlipper.displayedChild = ERROR
     }
 
-    private fun initRecyclerView() {
+    private fun initRecyclerViewLayout() {
         with(binding.contentArtistList.recyclerViewArtistListList) {
             // FIXME Is this redundant? We set the LayoutManager in the XML too.
             layoutManager =

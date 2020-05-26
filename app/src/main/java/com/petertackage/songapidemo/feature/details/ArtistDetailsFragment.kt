@@ -1,6 +1,7 @@
 package com.petertackage.songapidemo.feature.details
 
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,11 +64,30 @@ class ArtistDetailsFragment : Fragment() {
 
     private fun showContent(content: ArtistDetailsState.Loaded) {
         binding.viewFlipperArtistDetailsFlipper.displayedChild = Flipper.CONTENT
+        renderContentHeader(content)
+        renderTrackList(content)
+    }
+
+    private fun renderContentHeader(content: ArtistDetailsState.Loaded) {
         binding.contentArtistDetails.textViewArtistDetailsName.text = content.artist.name
         Glide.with(this).load(content.artist.backgroundUrl)
             .into(binding.contentArtistDetails.imageViewArtistDetailsBackground)
         Glide.with(this).load(content.artist.avatarUrl)
             .into(binding.contentArtistDetails.imageViewArtistDetailsAvatar)
+    }
+
+    private fun renderTrackList(content: ArtistDetailsState.Loaded) {
+        val track = content.tracks.first()
+        binding.contentArtistDetails.contentArtistDetailsTrack.textViewTrackListItemTitle.text =
+            track.title
+        binding.contentArtistDetails.contentArtistDetailsTrack.textViewTrackListItemDate.text =
+            DateUtils.formatElapsedTime(track.duration)
+        binding.contentArtistDetails.contentArtistDetailsTrack.textViewTrackListItemGenre.text =
+            track.genre
+
+        Glide.with(this).load(track.artworkUrl)
+            .into(binding.contentArtistDetails.contentArtistDetailsTrack.imageViewTrackListItemAvatar)
+
     }
 
     private fun showError() {

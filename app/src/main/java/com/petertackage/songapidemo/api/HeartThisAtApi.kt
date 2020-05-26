@@ -50,6 +50,7 @@ data class ArtistJson(
 data class TrackJson(
     val id: String,
     val title: String,
+    val genre: String,
     @Json(name = "artwork_url") val artworkUrl: String,
     val duration: Long,
     @Json(name = "waveform_url") val waveformUrl: String,

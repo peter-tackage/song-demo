@@ -58,6 +58,7 @@ private fun ArtistJson.toDomain() =
 data class Track(
     val id: String,
     val title: String,
+    val genre: String,
     val artworkUrl: String,
     val duration: Long,
     val waveformUrl: String,
@@ -68,6 +69,7 @@ private fun TrackJson.toDomain() =
     Track(
         id = id,
         title = title,
+        genre = genre,
         artworkUrl = artworkUrl,
         duration = duration,
         waveformUrl = waveformUrl,

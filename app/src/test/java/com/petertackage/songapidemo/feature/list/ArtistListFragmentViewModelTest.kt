@@ -1,13 +1,12 @@
 package com.petertackage.songapidemo.feature.list
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.petertackage.livedatatest.test
 import com.petertackage.songapidemo.service.Artist
-import com.petertackage.songapidemo.service.ArtistService
-import com.petertackage.songapidemo.service.Track
+import com.petertackage.songapidemo.service.FakeArtistService
 import com.petertackage.songapidemo.test.TestDispatcherRule
 import com.petertackage.songapidemo.test.provideTestCoroutineDispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runBlockingTest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
@@ -33,7 +32,7 @@ class ArtistListFragmentViewModelTest {
     }
 
     @Test
-    fun `state is loading list on initialization when awaiting result`() =
+    fun `state is loading  on initialization when awaiting result`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
             // given
             val artists = listOf(
@@ -52,6 +51,37 @@ class ArtistListFragmentViewModelTest {
 
             // then
             assertThat(viewModel.state.value).isEqualTo(ArtistListState.IsLoading)
+        }
+
+
+    @Test
+    fun `state is loading, then artist list on initialization when awaiting result`() =
+        coroutinesTestRule.testDispatcher.runBlockingTest {
+            // given
+            val artists = listOf(
+                artistTestFixture(0),
+                artistTestFixture(1),
+                artistTestFixture(2)
+            )
+            val delayMillis = 1000L
+            fakeArtistService.delayMillis = delayMillis
+            fakeArtistService.nextTopArtists = artists
+
+            // when
+            viewModel = ArtistListFragmentViewModel(
+                fakeArtistService,
+                provideTestCoroutineDispatcherProvider(coroutinesTestRule.testDispatcher)
+            )
+            val observer = viewModel.state.test()
+            advanceTimeBy(delayMillis)
+
+            // then
+            assertThat(observer.values).isEqualTo(
+                listOf(
+                    ArtistListState.IsLoading,
+                    ArtistListState.Loaded(artists)
+                )
+            )
         }
 
     @Test
@@ -102,40 +132,6 @@ class ArtistListFragmentViewModelTest {
             index,
             index.toLong() + 1
         )
-    }
-
-    class FakeArtistService : ArtistService {
-
-        // https://youtrack.jetbrains.com/issue/KT-3110
-        // You can't have public setters without public getters
-        var delayMillis: Long = 0
-        var nextTopArtists: List<Artist> = emptyList()
-        var nextError: Throwable? = null
-
-        override suspend fun topArtists(): List<Artist> {
-            performDelay()
-            throwIfError()
-            return nextTopArtists
-        }
-
-        private fun throwIfError() {
-            if (nextError != null) {
-                throw nextError as Throwable
-            }
-        }
-
-        private suspend fun performDelay() {
-            if (delayMillis > 0) delay(delayMillis)
-        }
-
-        override suspend fun artist(name: String): Artist {
-            TODO("Not yet implemented")
-        }
-
-        override suspend fun tracksForArtist(artistName: String): List<Track> {
-            TODO("Not yet implemented")
-        }
-
     }
 
 }

@@ -2,9 +2,9 @@ package com.petertackage.songapidemo.feature.list
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.petertackage.livedatatest.test
-import com.petertackage.songapidemo.service.Artist
 import com.petertackage.songapidemo.service.FakeArtistService
 import com.petertackage.songapidemo.test.TestDispatcherRule
+import com.petertackage.songapidemo.test.data.artistTestFixture
 import com.petertackage.songapidemo.test.provideTestCoroutineDispatcherProvider
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -88,11 +88,12 @@ class ArtistListFragmentViewModelTest {
     fun `state is loaded artist list on initialization`() =
         coroutinesTestRule.testDispatcher.runBlockingTest {
             // given
-            val artists = listOf(
-                artistTestFixture(0),
-                artistTestFixture(1),
-                artistTestFixture(2)
-            )
+            val artists =
+                listOf(
+                    artistTestFixture(0),
+                    artistTestFixture(1),
+                    artistTestFixture(2)
+                )
             fakeArtistService.nextTopArtists = artists
 
             // when
@@ -120,18 +121,5 @@ class ArtistListFragmentViewModelTest {
             // then
             assertThat(viewModel.state.value).isInstanceOf(ArtistListState.Failed::class.java)
         }
-
-    private fun artistTestFixture(index: Int): Artist {
-        return Artist(
-            "id$index",
-            "nameId$index",
-            "name$index",
-            "avatarUrl$index",
-            "backgroundUrl$index",
-            "description$index",
-            index,
-            index.toLong() + 1
-        )
-    }
 
 }

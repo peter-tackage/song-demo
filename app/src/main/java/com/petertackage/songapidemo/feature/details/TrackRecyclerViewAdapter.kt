@@ -1,5 +1,6 @@
 package com.petertackage.songapidemo.feature.details
 
+import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -29,7 +30,7 @@ class TrackRecyclerViewAdapter(
 
         with(holder) {
             titleView.text = item.title
-            durationView.text = android.text.format.DateUtils.formatElapsedTime(item.duration)
+            durationView.text = DateUtils.formatElapsedTime(item.duration)
             genreView.text = item.genre
             Glide.with(itemView)
                 .load(item.artworkUrl)

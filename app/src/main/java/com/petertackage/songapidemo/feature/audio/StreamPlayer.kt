@@ -16,7 +16,15 @@ class StreamPlayer {
     private var mediaPlayer: MediaPlayer? = null
 
     fun play(url: String) {
-        mediaPlayer?.stop()
+        performStop()
+        performPlay(url)
+    }
+
+    fun stop() {
+        performStop()
+    }
+
+    private fun performPlay(url: String) {
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
@@ -27,11 +35,10 @@ class StreamPlayer {
             setOnPreparedListener { start(); emitPlaying(url) }
             prepareAsync()
         }
-
     }
 
-    fun stop() {
-        mediaPlayer?.also { stop() }
+    private fun performStop() {
+        mediaPlayer?.also { it.stop() }
             .also { emitIdle() }
     }
 

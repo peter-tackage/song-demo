@@ -13,9 +13,6 @@
         android:id="@+id/imageView_trackListItem_avatar"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars"
         android:layout_marginEnd="16dp"/>
 
@@ -33,15 +30,6 @@
             tools:text="The track name, this could be quite long so get ready for some text to overflow" />
 
         <TextView
-            android:id="@+id/textView_trackListItem_length"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="12:45" />
-
-        <TextView
             android:id="@+id/text_view_track_list_item_genre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,6 +37,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="A genre" />
+
+        <TextView
+            android:id="@+id/textView_trackListItem_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="12:45" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

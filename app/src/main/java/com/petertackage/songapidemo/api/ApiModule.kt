@@ -20,7 +20,6 @@ fun provideHeartThisAtApi(): HeartThisAtApi {
 private fun provideMoshi(): Moshi {
     return Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
-        //  .add(FeedTypeJson::class.java, EnumJsonAdapter.create(FeedTypeJson::class.java))
         .build()
 }
 

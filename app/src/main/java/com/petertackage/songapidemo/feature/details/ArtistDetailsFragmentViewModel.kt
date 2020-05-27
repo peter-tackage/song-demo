@@ -30,10 +30,6 @@ class ArtistDetailsFragmentViewModel(
         streamPlayer.play(url)
     }
 
-    fun stopTrack() {
-        streamPlayer.stop()
-    }
-
     private fun fetchArtist(artistName: String) {
         emitNow(ArtistDetailsState.IsLoading)
         viewModelScope.launch(dispatcherProvider.io) {

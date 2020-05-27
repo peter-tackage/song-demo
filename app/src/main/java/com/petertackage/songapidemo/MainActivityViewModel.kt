@@ -1,8 +1,8 @@
 package com.petertackage.songapidemo
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import com.petertackage.songapidemo.feature.audio.StreamPlayer
 import com.petertackage.songapidemo.feature.audio.provideStreamPlayer
 import com.petertackage.songapidemo.service.Track
@@ -11,7 +11,7 @@ class MainActivityViewModel(private val streamPlayer: StreamPlayer = provideStre
     ViewModel() {
     val state: LiveData<MainActivityState>
         get() =
-            Transformations.map(streamPlayer.state) { playerState ->
+            streamPlayer.state.map { playerState ->
                 MainActivityState(
                     Track(
                         "id", "title",

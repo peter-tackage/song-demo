@@ -16,6 +16,7 @@ class StreamPlayer {
     private var mediaPlayer: MediaPlayer? = null
 
     fun play(url: String) {
+        mediaPlayer?.stop()
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()

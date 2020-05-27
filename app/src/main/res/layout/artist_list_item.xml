@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp">
+    android:paddingVertical="16dp"
+    android:paddingHorizontal="8dp">
 
     <ImageView
         android:id="@+id/image_view_artist_list_item_avatar"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_marginEnd="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -20,8 +20,8 @@
         android:id="@+id/textView_artistListItem_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textAppearance="?attr/textAppearanceListItem"
+        android:layout_marginStart="16dp"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintStart_toEndOf="@+id/image_view_artist_list_item_avatar"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="The artist name" />
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tracks: "
-        android:textAppearance="?attr/textAppearanceListItemSecondary"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         app:layout_constraintStart_toStartOf="@+id/textView_artistListItem_name"
         app:layout_constraintTop_toBottomOf="@+id/textView_artistListItem_name" />
 
@@ -39,7 +39,7 @@
         android:id="@+id/textView_artistListItem_trackCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItemSecondary"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         app:layout_constraintStart_toEndOf="@+id/textView_artistListItem_tracksCountLabel"
         app:layout_constraintTop_toTopOf="@+id/textView_artistListItem_tracksCountLabel"
         tools:text="6" />
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Followers: "
-        android:textAppearance="?attr/textAppearanceListItemSecondary"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         app:layout_constraintStart_toStartOf="@+id/textView_artistListItem_tracksCountLabel"
         app:layout_constraintTop_toBottomOf="@+id/textView_artistListItem_tracksCountLabel" />
 
@@ -57,7 +57,7 @@
         android:id="@+id/textView_artistListItem_followerCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?attr/textAppearanceListItemSecondary"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         app:layout_constraintStart_toEndOf="@+id/textView_artistListItem_followerCountLabel"
         app:layout_constraintTop_toTopOf="@+id/textView_artistListItem_followerCountLabel"
         tools:text="120" />

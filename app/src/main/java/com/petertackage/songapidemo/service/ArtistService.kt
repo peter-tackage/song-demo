@@ -4,9 +4,15 @@ import com.petertackage.songapidemo.api.ArtistJson
 import com.petertackage.songapidemo.api.HeartThisAtApi
 import com.petertackage.songapidemo.api.TrackJson
 
-class ArtistService(private val api: HeartThisAtApi) {
+interface ArtistService {
+    suspend fun topArtists(): List<Artist>
+    suspend fun artist(name: String): Artist
+    suspend fun tracksForArtist(artistName: String): List<Track>
+}
 
-    suspend fun topArtists(): List<Artist> {
+class ArtistServiceImpl(private val api: HeartThisAtApi) : ArtistService {
+
+    override suspend fun topArtists(): List<Artist> {
         // Query the API for the feed,
         // Take the userId
         // Unique
@@ -19,12 +25,11 @@ class ArtistService(private val api: HeartThisAtApi) {
             .map { it.toDomain() }
     }
 
-    // TODO This will need to be expanded for track information.
-    suspend fun artist(name: String): Artist {
+    override suspend fun artist(name: String): Artist {
         return api.artist(name).toDomain()
     }
 
-    suspend fun tracksForArtist(artistName: String): List<Track> {
+    override suspend fun tracksForArtist(artistName: String): List<Track> {
         return api.tracks(artistName, 1, 20)
             .map { it.toDomain() }
     }

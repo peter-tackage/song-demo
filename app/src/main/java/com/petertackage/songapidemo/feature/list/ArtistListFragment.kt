@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.petertackage.songapidemo.databinding.FragmentListBinding
+import com.petertackage.songapidemo.databinding.ArtistListFragmentBinding
 import com.petertackage.songapidemo.feature.list.ArtistListFragment.Flipper.CONTENT
 import com.petertackage.songapidemo.feature.list.ArtistListFragment.Flipper.ERROR
 import com.petertackage.songapidemo.feature.list.ArtistListFragment.Flipper.LOADING
@@ -26,7 +26,7 @@ class ArtistListFragment : Fragment() {
     }
 
     // ViewBinding using technique from https://developer.android.com/topic/libraries/view-binding
-    private var _binding: FragmentListBinding? = null
+    private var _binding: ArtistListFragmentBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -34,7 +34,7 @@ class ArtistListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentListBinding.inflate(layoutInflater)
+        _binding = ArtistListFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
 

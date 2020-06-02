@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.petertackage.songapidemo.databinding.FragmentArtistDetailsBinding
+import com.petertackage.songapidemo.databinding.ArtistDetailsFragmentBinding
 import com.petertackage.songapidemo.feature.list.provideDiffItemCallback
 
 class ArtistDetailsFragment : Fragment() {
@@ -22,7 +22,7 @@ class ArtistDetailsFragment : Fragment() {
     private lateinit var adapter: TrackRecyclerViewAdapter
 
     // ViewBinding using technique from https://developer.android.com/topic/libraries/view-binding
-    private var _binding: FragmentArtistDetailsBinding? = null
+    private var _binding: ArtistDetailsFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ArtistDetailsFragmentViewModel by viewModels()
@@ -32,7 +32,7 @@ class ArtistDetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentArtistDetailsBinding.inflate(layoutInflater)
+        _binding = ArtistDetailsFragmentBinding.inflate(layoutInflater)
         return binding.root
     }
 

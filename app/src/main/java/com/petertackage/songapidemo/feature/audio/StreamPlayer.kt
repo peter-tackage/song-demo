@@ -6,33 +6,34 @@ import android.media.AudioAttributes.USAGE_MEDIA
 import android.media.MediaPlayer
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.petertackage.songapidemo.service.Track
 
 // FIXME This doesn't handle error recovery or wake locks - it seemed beyond the scope of the task.
 object StreamPlayer {
 
-    private val _state = MutableLiveData<StreamState>()
+    private val _state = MutableLiveData(StreamState(null, false))
     val state: LiveData<StreamState> get() = _state
 
     private var mediaPlayer: MediaPlayer? = null
 
-    fun play(url: String) {
+    fun play(track: Track) {
         performStop()
-        performPlay(url)
+        performPlay(track)
     }
 
     fun stop() {
         performStop()
     }
 
-    private fun performPlay(url: String) {
+    private fun performPlay(track: Track) {
         mediaPlayer = MediaPlayer().apply {
             setAudioAttributes(
                 AudioAttributes.Builder()
                     .setContentType(CONTENT_TYPE_MUSIC)
                     .setUsage(USAGE_MEDIA).build()
             )
-            setDataSource(url)
-            setOnPreparedListener { start(); emitPlaying(url) }
+            setDataSource(track.streamUrl)
+            setOnPreparedListener { start(); emitPlaying(track) }
             prepareAsync()
         }
     }
@@ -48,16 +49,21 @@ object StreamPlayer {
         emitIdle()
     }
 
-    private fun emitPlaying(url: String) {
-        _state.value = StreamState(url)
+    private fun emitPlaying(track: Track) {
+        _state.value = StreamState(track, true)
+    }
+
+    private fun emitStopped() {
+        _state.value = _state.value?.copy(isPlaying = false) ?: StreamState(null, false)
     }
 
     private fun emitIdle() {
-        _state.value = StreamState(null)
+        _state.value = StreamState(null, false)
     }
 
 }
 
 data class StreamState(
-    val uri: String?
+    val track: Track?,
+    val isPlaying: Boolean
 )

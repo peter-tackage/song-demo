@@ -14,7 +14,7 @@ import com.petertackage.songapidemo.service.Track
 
 class TrackRecyclerViewAdapter(
     diffItemCallback: DiffUtil.ItemCallback<Track>,
-    private val trackItemClickHandler: (url: String) -> Unit
+    private val trackItemClickHandler: (track: Track) -> Unit
 ) : ListAdapter<Track, TrackRecyclerViewAdapter.ViewHolder>(diffItemCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,7 +36,7 @@ class TrackRecyclerViewAdapter(
                 .load(item.artworkUrl)
                 .into(trackAvatarImageView)
             itemView.setOnClickListener {
-                trackItemClickHandler(item.streamUrl)
+                trackItemClickHandler(item)
             }
         }
     }

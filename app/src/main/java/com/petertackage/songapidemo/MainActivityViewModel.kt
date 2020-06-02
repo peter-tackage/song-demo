@@ -9,16 +9,16 @@ import com.petertackage.songapidemo.service.Track
 
 class MainActivityViewModel(private val streamPlayer: StreamPlayer = provideStreamPlayer()) :
     ViewModel() {
+
     val state: LiveData<MainActivityState>
         get() =
             streamPlayer.state.map { playerState ->
-                MainActivityState(
-                    Track(
-                        "id", "title",
-                        "genre", "artwork", 100, "wavformUrl", "streamUrl"
-                    )
-                )
+                MainActivityState(playerState.track, playerState.isPlaying)
             }
+
+    fun releasePlayer() {
+        streamPlayer.release()
+    }
 }
 
-data class MainActivityState(val activeTrack: Track?)
+data class MainActivityState(val track: Track?, val isPlaying: Boolean)

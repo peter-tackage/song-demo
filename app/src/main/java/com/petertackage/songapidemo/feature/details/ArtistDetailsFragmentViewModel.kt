@@ -26,8 +26,8 @@ class ArtistDetailsFragmentViewModel(
         fetchArtist(artistName)
     }
 
-    fun playTrack(url: String) {
-        streamPlayer.play(url)
+    fun playTrack(track: Track) {
+        streamPlayer.play(track)
     }
 
     private fun fetchArtist(artistName: String) {

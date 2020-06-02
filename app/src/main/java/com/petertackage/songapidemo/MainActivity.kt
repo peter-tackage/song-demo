@@ -5,7 +5,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.petertackage.songapidemo.databinding.MainActivityBinding
-import com.petertackage.songapidemo.feature.audio.provideStreamPlayer
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -28,13 +27,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(state: MainActivityState) {
         binding.audioPlayerContent.textViewAudioPlayerTrackTitle.text =
-            state.activeTrack?.title ?: "-"
+            if (state.track == null) {
+                "-"
+            } else {
+                "${if (state.isPlaying) "Playing" else "Stopped"}: ${state.track.title}"
+            }
     }
 
     override fun onStop() {
         super.onStop()
         // Prevent audio from running in the background.
-        provideStreamPlayer().release()
+        viewModel.releasePlayer()
     }
 
     private fun initLogging() {

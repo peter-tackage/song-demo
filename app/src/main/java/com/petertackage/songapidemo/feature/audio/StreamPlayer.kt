@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 // FIXME This doesn't handle error recovery or wake locks - it seemed beyond the scope of the task.
-class StreamPlayer {
+object StreamPlayer {
 
     private val _state = MutableLiveData<StreamState>()
     val state: LiveData<StreamState> get() = _state

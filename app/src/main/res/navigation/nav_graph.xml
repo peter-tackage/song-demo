@@ -9,14 +9,14 @@
         android:id="@+id/artistListFragment"
         android:name="com.petertackage.songapidemo.feature.list.ArtistListFragment"
         android:label="fragment_list"
-        tools:layout="@layout/fragment_list">
+        tools:layout="@layout/artist_list_fragment">
         <argument android:name="artistNameId" />
     </fragment>
     <fragment
         android:id="@+id/artistDetailsFragment"
         android:name="com.petertackage.songapidemo.feature.details.ArtistDetailsFragment"
         android:label="fragment_artist_details"
-        tools:layout="@layout/fragment_artist_details" />
+        tools:layout="@layout/artist_details_fragment" />
 
     <action
         android:id="@+id/action_artistListFragment_to_artistDetailsFragment"

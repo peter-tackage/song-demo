@@ -53,7 +53,7 @@ class ArtistDetailsFragment : Fragment() {
         val artistName = extractArtistParam()
 
         adapter =
-            TrackRecyclerViewAdapter(provideDiffItemCallback()) { track -> viewModel.playTrack(track) }
+            TrackRecyclerViewAdapter(provideDiffItemCallback(), viewModel::playTrack)
         binding.contentArtistDetails.recyclerViewArtistDetailsList.adapter = adapter
 
         viewModel.loadArtist(artistName)

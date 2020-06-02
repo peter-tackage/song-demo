@@ -5,7 +5,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
+import com.petertackage.songapidemo.databinding.AudioPlayerViewBinding
 import com.petertackage.songapidemo.databinding.MainActivityBinding
+import com.petertackage.songapidemo.service.Track
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -28,15 +30,25 @@ class MainActivity : AppCompatActivity() {
 
     private fun render(state: MainActivityState) {
         with(binding.audioPlayerContent) {
-            textViewAudioPlayerTrackTitle.text =
-                state.track?.let {
-                    "${if (state.isPlaying) "Playing" else "Stopped"}: ${title}"
-                } ?: "-"
-
-            state.track?.apply {
-                Glide.with(this@MainActivity).load(artworkUrl).into(imageViewAudioPlayerAvatar)
-            } ?: Glide.with(imageViewAudioPlayerAvatar).clear(imageViewAudioPlayerAvatar)
+            state.track?.let { track -> renderTrack(track, state.isPlaying) } ?: renderIdlePlayer()
         }
+    }
+
+    private fun AudioPlayerViewBinding.renderTrack(
+        track: Track,
+        isPlaying: Boolean
+    ) {
+        Glide.with(this@MainActivity).load(track.artworkUrl)
+            .into(imageViewAudioPlayerAvatar)
+        textViewAudioPlayerTrackTitle.text = track.title
+        imageViewAudioPlayerControls.setImageResource(if (isPlaying) R.drawable.ic_baseline_stop_24 else R.drawable.ic_baseline_play_circle_outline_24)
+    }
+
+    private fun AudioPlayerViewBinding.renderIdlePlayer() {
+        Glide.with(this@MainActivity).clear(imageViewAudioPlayerAvatar)
+        textViewAudioPlayerTrackTitle.text
+        imageViewAudioPlayerControls.setImageDrawable(null)
+        textViewAudioPlayerTrackTitle.text = "-"
     }
 
     override fun onStop() {

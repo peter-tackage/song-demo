@@ -25,9 +25,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@+id/imageView_audioPlayer_controls"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="The track name, this could be quite long so get ready for some text to overflow" />
+
+        <ImageView
+            android:id="@+id/imageView_audioPlayer_controls"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_play_circle_outline_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

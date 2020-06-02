@@ -46,7 +46,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun AudioPlayerViewBinding.renderIdlePlayer() {
         Glide.with(this@MainActivity).clear(imageViewAudioPlayerAvatar)
-        textViewAudioPlayerTrackTitle.text
         imageViewAudioPlayerControls.setImageDrawable(null)
         textViewAudioPlayerTrackTitle.text = "-"
     }

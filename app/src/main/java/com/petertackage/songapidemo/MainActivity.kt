@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.petertackage.songapidemo.databinding.MainActivityBinding
 import timber.log.Timber
 
@@ -26,12 +27,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun render(state: MainActivityState) {
-        binding.audioPlayerContent.textViewAudioPlayerTrackTitle.text =
-            if (state.track == null) {
-                "-"
-            } else {
-                "${if (state.isPlaying) "Playing" else "Stopped"}: ${state.track.title}"
-            }
+        with(binding.audioPlayerContent) {
+            textViewAudioPlayerTrackTitle.text =
+                state.track?.let {
+                    "${if (state.isPlaying) "Playing" else "Stopped"}: ${title}"
+                } ?: "-"
+
+            state.track?.apply {
+                Glide.with(this@MainActivity).load(artworkUrl).into(imageViewAudioPlayerAvatar)
+            } ?: Glide.with(imageViewAudioPlayerAvatar).clear(imageViewAudioPlayerAvatar)
+        }
     }
 
     override fun onStop() {

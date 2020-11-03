@@ -26,3 +26,10 @@ Further improvements:
 - Audio player handling is rough and unproven.
 - Various other TODOs/FIXMEs where I made to the trade-off to move forward, rather than polish.
 
+Code Coverage:
+
+Jacoco is defined for the debug variants:
+
+Run `./gradlew test jacocoDebug`
+
+Output is in `./app/build/jacoco`
